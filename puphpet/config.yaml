@@ -4,7 +4,7 @@ vagrantfile:
         provider:
             local:
                 box: puphpet/ubuntu1604-x64
-                box_url: puphpet/ubuntu1604-x64
+                box_url: 'false'
                 box_version: '0'
                 chosen_virtualizer: virtualbox
                 virtualizers:
@@ -20,15 +20,15 @@ vagrantfile:
                         update_guest_tools: 0
                 machines:
                     vflm_g3ttbx7zfp15:
-                        id: 'rokka-wordpress-plugin-vm.dev'
-                        hostname: 'rokka-wordpress-plugin-vm.dev'
+                        id: rokka-wordpress-plugin-vm.dev
+                        hostname: rokka-wordpress-plugin-vm.dev
                         network:
-                            private_network: '192.168.126.168'
+                            private_network: 192.168.126.168
                             forwarded_port:
                                 vflmnfp_0n6zwli2h9b4:
                                     host: '4154'
                                     guest: '22'
-                        memory: '1024'
+                        memory: '512'
                         cpus: '1'
         provision:
             puppet:
@@ -88,6 +88,7 @@ server:
     install: '1'
     packages:
         - vim
+        - htop
         - subversion
 users_groups:
     install: '1'
@@ -138,26 +139,46 @@ nginx:
             ssl: '0'
             locations:
                 nxvl_ha9wz05rwfj0:
-                    www_root: ''
+                    www_root: /var/www/web
                     location: /
                     autoindex: 'off'
                     internal: 'false'
                     index_files:
                         - index.html
-                        - index.htm
                         - index.php
+                        - app.php
                     try_files:
                         - $uri
                         - $uri/
                         - /index.php$is_args$args
+                        - /app.php$is_args$args
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
                 nxvl_9aqzb3m5ojff:
-                    www_root: ''
-                    location: '~ \.php$'
+                    www_root: /var/www/web
+                    location: '~ ^/(app_dev|config)\.php(/|$)'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /app_dev.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: app_dev.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                        - 'APP_ENV dev'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+                nxvl_fcj9zs3td5z0:
+                    www_root: /var/www/awesome/web
+                    location: '~ ^/index\.php(/|$)'
                     autoindex: 'off'
                     internal: 'false'
                     try_files:
@@ -168,8 +189,26 @@ nginx:
                     fastcgi_index: index.php
                     fastcgi_split_path: '^(.+\.php)(/.*)$'
                     fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $request_filename'
-                        - 'APP_ENV dev'
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                    set:
+                        - '$path_info $fastcgi_path_info'
+                    proxy: ''
+                    proxy_redirect: ''
+                nxvl_fb5gkpjdub35:
+                    www_root: /var/www/awesome/web
+                    location: '~ ^/app\.php(/|$)'
+                    autoindex: 'off'
+                    internal: 'false'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - /app.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: app.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                        - 'APP_ENV prod'
                     set:
                         - '$path_info $fastcgi_path_info'
                     proxy: ''
@@ -190,7 +229,7 @@ apache:
         - rewrite
     vhosts:
         av_4q9j6kbc1diq:
-            servername: 'rokka-wordpress-plugin-vm.dev'
+            servername: rokka-wordpress-plugin-vm.dev
             serveraliases:
                 - www.rokka-wordpress-plugin-vm.dev
             docroot: /var/www/web
@@ -208,7 +247,7 @@ apache:
             directories:
                 avd_74o00edz2477:
                     path: /var/www/web
-                    directoryindex: ''
+                    directoryindex: 'index.php app.dev'
                     options:
                         - Indexes
                         - FollowSymlinks
@@ -219,6 +258,26 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     provider: directory
+            files_match:
+                avfm_lx21eoajbp1r:
+                    path: (app_dev|config)\.php$
+                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                    setenv:
+                        - 'APP_ENV dev'
+                    custom_fragment: ''
+                    provider: filesmatch
+                avfm_twg6wz3vskgh:
+                    path: app\.php$
+                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                    setenv:
+                        - 'APP_ENV prod'
+                    custom_fragment: ''
+                    provider: filesmatch
+                avfm_7opzq6ljvbvx:
+                    path: \.php$
+                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                    custom_fragment: ''
+                    provider: filesmatch
 letsencrypt:
     install: '1'
     settings:
@@ -289,7 +348,7 @@ xhprof:
     install: '0'
 wpcli:
     install: '0'
-    version: v0.24.1
+    version: v1.1.0
 drush:
     install: '0'
     version: 8.0.5
