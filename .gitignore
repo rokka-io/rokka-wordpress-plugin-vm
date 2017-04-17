@@ -14,7 +14,6 @@ composer.phar
 /web/wp-live-config.php
 /web/content/uploads/
 /web/content/debug.log
-/web/_object-cache.php
 
 /web/content/themes/rokka-wordpress-plugin-vm/node_modules/
 /web/content/themes/rokka-wordpress-plugin-vm/assets/css/
