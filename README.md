@@ -38,7 +38,7 @@ Rokka WordPress Plugin VM
 To use adminer just create a symbolic link with the following command:
 
     $ cd web/adminer/
-    $ ln -s ../../tools/adminer/adminer-4.2.4-mysql-de.php index.php
+    $ ln -s ../../tools/adminer/adminer-4.3.1-mysql.php index.php
 
 * URL: http://rokka-wordpress-plugin-vm.dev/adminer/
 * Username: rokkavm
