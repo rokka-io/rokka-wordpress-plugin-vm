@@ -33,7 +33,13 @@ Rokka WordPress Plugin VM
 
 ## Users
 
-### WordPress MariaDB
+### WordPress
+
+* URL: http://rokka-wordpress-plugin-vm.dev/cms/wp-admin/
+* Username: rokka
+* Password: rokka
+
+### Database
 
 To use adminer just create a symbolic link with the following command:
 
