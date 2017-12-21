@@ -41,5 +41,5 @@ $redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );
 // Define Siteurl
 // ===================================================
 
-define( 'WP_HOME', 'http://rokka-wordpress-plugin-vm.dev' );
-define( 'WP_SITEURL', 'http://rokka-wordpress-plugin-vm.dev/cms' );
+define( 'WP_HOME', 'https://rokka-wordpress-plugin-vm.test' );
+define( 'WP_SITEURL', 'https://rokka-wordpress-plugin-vm.test/cms' );

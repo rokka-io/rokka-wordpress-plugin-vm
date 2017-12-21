@@ -1,0 +1,2 @@
+  # Redirect all traffic to https
+  Redirect permanent / https://rokka-wordpress-plugin-vm.test/
