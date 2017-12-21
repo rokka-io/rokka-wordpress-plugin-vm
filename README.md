@@ -20,7 +20,7 @@ Rokka WordPress Plugin VM
 1. Add hosts entry (usually `/etc/hosts`)
 
     ```
-    $ sudo echo '192.168.126.168 rokka-wordpress-plugin-vm.dev' >> /etc/hosts
+    $ sudo echo '192.168.126.168 rokka-wordpress-plugin-vm.test' >> /etc/hosts
     ```
 
 1. Start Vagrant-Box
@@ -35,7 +35,7 @@ Rokka WordPress Plugin VM
 
 ### WordPress
 
-* URL: http://rokka-wordpress-plugin-vm.dev/cms/wp-admin/
+* URL: https://rokka-wordpress-plugin-vm.test/cms/wp-admin/
 * Username: rokka
 * Password: rokka
 
@@ -46,7 +46,7 @@ To use adminer just create a symbolic link with the following command:
     $ cd web/adminer/
     $ ln -s ../../tools/adminer/adminer-4.3.1-mysql.php index.php
 
-* URL: http://rokka-wordpress-plugin-vm.dev/adminer/
+* URL: https://rokka-wordpress-plugin-vm.test/adminer/
 * Username: rokkavm
 * Password: 123
 
@@ -54,7 +54,7 @@ To use adminer just create a symbolic link with the following command:
 
 All emails sent in the machine will be catched by MailHog (and not send to the outer world).
 
-To read these emails you can access the MailHog web interface by accessing http://rokka-wordpress-plugin-vm.dev:8025/ in your browser.
+To read these emails you can access the MailHog web interface by accessing http://rokka-wordpress-plugin-vm.test:8025/ in your browser.
 
 ## Create and restore database dumps
 

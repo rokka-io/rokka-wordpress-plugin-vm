@@ -20,8 +20,8 @@ vagrantfile:
                         update_guest_tools: 0
                 machines:
                     vflm_g3ttbx7zfp15:
-                        id: rokka-wordpress-plugin-vm.dev
-                        hostname: rokka-wordpress-plugin-vm.dev
+                        id: rokka-wordpress-plugin-vm.test
+                        hostname: rokka-wordpress-plugin-vm.test
                         network:
                             private_network: 192.168.126.168
                             forwarded_port:
@@ -229,19 +229,19 @@ apache:
         - rewrite
     vhosts:
         av_4q9j6kbc1diq:
-            servername: rokka-wordpress-plugin-vm.dev
+            servername: rokka-wordpress-plugin-vm.test
             serveraliases:
-                - www.rokka-wordpress-plugin-vm.dev
+                - www.rokka-wordpress-plugin-vm.test
             docroot: /var/www/web
-            port: '80'
+            port: '443'
             setenvif:
                 - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
             custom_fragment: ''
-            ssl: '0'
-            ssl_cert: LETSENCRYPT
-            ssl_key: LETSENCRYPT
-            ssl_chain: LETSENCRYPT
-            ssl_certs_dir: LETSENCRYPT
+            ssl: '1'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
@@ -278,6 +278,36 @@ apache:
                     sethandler: 'proxy:fcgi://127.0.0.1:9000'
                     custom_fragment: ''
                     provider: filesmatch
+        av_x7v0l8uy8mwt:
+            servername: rokka-wordpress-plugin-vm.test
+            serveraliases:
+                - www.rokka-wordpress-plugin-vm.test
+            docroot: /var/www/web
+            port: '80'
+            setenvif:
+                - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
+            custom_fragment: /vagrant/env_config/dev/vhost80_custom_directives
+            ssl: '0'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
+            ssl_protocol: ''
+            ssl_cipher: ''
+            directories:
+                avd_v0e69c0inmkz:
+                    path: /var/www/web
+                    directoryindex: ''
+                    options:
+                        - Indexes
+                        - FollowSymlinks
+                        - MultiViews
+                    allow_override:
+                        - All
+                    require:
+                        - 'all granted'
+                    custom_fragment: ''
+                    provider: directory
 letsencrypt:
     install: '1'
     settings:
@@ -381,15 +411,15 @@ mariadb:
         override_options: {  }
     users:
         mariadbnu_07vf8y1cp5ke:
-            name: 'rokkavm'
+            name: rokkavm
             password: '123'
     databases:
         mariadbnd_s4dmn8alwifj:
-            name: 'rokkavm'
+            name: rokkavm
             sql: /var/www/data/sql/rokka-wordpress-plugin-vm.sql
     grants:
         mariadbng_s513orqpbeie:
-            user: 'rokkavm'
+            user: rokkavm
             table: '*.*'
             privileges:
                 - ALL

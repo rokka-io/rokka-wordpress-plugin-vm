@@ -142,8 +142,8 @@ CREATE TABLE `rokkavm_options` (
 
 LOCK TABLES `rokkavm_options` WRITE;
 /*!40000 ALTER TABLE `rokkavm_options` DISABLE KEYS */;
-INSERT INTO `rokkavm_options` VALUES (1,'siteurl','http://rokka-wordpress-plugin-vm.dev/cms','yes');
-INSERT INTO `rokkavm_options` VALUES (2,'home','http://rokka-wordpress-plugin-vm.dev/cms','yes');
+INSERT INTO `rokkavm_options` VALUES (1,'siteurl','https://rokka-wordpress-plugin-vm.test/cms','yes');
+INSERT INTO `rokkavm_options` VALUES (2,'home','https://rokka-wordpress-plugin-vm.test/cms','yes');
 INSERT INTO `rokkavm_options` VALUES (3,'blogname','Rokka WordPress Plugin','yes');
 INSERT INTO `rokkavm_options` VALUES (4,'blogdescription','Just another WordPress site','yes');
 INSERT INTO `rokkavm_options` VALUES (5,'users_can_register','0','yes');
@@ -327,8 +327,8 @@ CREATE TABLE `rokkavm_posts` (
 
 LOCK TABLES `rokkavm_posts` WRITE;
 /*!40000 ALTER TABLE `rokkavm_posts` DISABLE KEYS */;
-INSERT INTO `rokkavm_posts` VALUES (1,1,'2017-04-17 11:07:15','2017-04-17 11:07:15','Welcome to WordPress. This is your first post. Edit or delete it, then start writing!','Hello world!','','publish','open','open','','hello-world','','','2017-04-17 11:07:15','2017-04-17 11:07:15','',0,'http://rokka-wordpress-plugin-vm.dev/?p=1',0,'post','',1);
-INSERT INTO `rokkavm_posts` VALUES (2,1,'2017-04-17 11:07:15','2017-04-17 11:07:15','This is an example page. It\'s different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:\n\n<blockquote>Hi there! I\'m a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin\' caught in the rain.)</blockquote>\n\n...or something like this:\n\n<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>\n\nAs a new WordPress user, you should go to <a href=\"http://rokka-wordpress-plugin-vm.dev/cms/wp-admin/\">your dashboard</a> to delete this page and create new pages for your content. Have fun!','Sample Page','','publish','closed','open','','sample-page','','','2017-04-17 11:07:15','2017-04-17 11:07:15','',0,'http://rokka-wordpress-plugin-vm.dev/?page_id=2',0,'page','',0);
+INSERT INTO `rokkavm_posts` VALUES (1,1,'2017-04-17 11:07:15','2017-04-17 11:07:15','Welcome to WordPress. This is your first post. Edit or delete it, then start writing!','Hello world!','','publish','open','open','','hello-world','','','2017-04-17 11:07:15','2017-04-17 11:07:15','',0,'https://rokka-wordpress-plugin-vm.test/?p=1',0,'post','',1);
+INSERT INTO `rokkavm_posts` VALUES (2,1,'2017-04-17 11:07:15','2017-04-17 11:07:15','This is an example page. It\'s different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:\n\n<blockquote>Hi there! I\'m a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin\' caught in the rain.)</blockquote>\n\n...or something like this:\n\n<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>\n\nAs a new WordPress user, you should go to <a href=\"https://rokka-wordpress-plugin-vm.test/cms/wp-admin/\">your dashboard</a> to delete this page and create new pages for your content. Have fun!','Sample Page','','publish','closed','open','','sample-page','','','2017-04-17 11:07:15','2017-04-17 11:07:15','',0,'http://rokka-wordpress-plugin-vm.dev/?page_id=2',0,'page','',0);
 /*!40000 ALTER TABLE `rokkavm_posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
