@@ -3,7 +3,7 @@ vagrantfile:
     vm:
         provider:
             local:
-                box: puphpet/ubuntu1604-x64
+                box: bento/ubuntu-16.04
                 box_url: 'false'
                 box_version: '0'
                 chosen_virtualizer: virtualbox
@@ -19,13 +19,13 @@ vagrantfile:
                         check_guest_tools: 0
                         update_guest_tools: 0
                 machines:
-                    vflm_g3ttbx7zfp15:
+                    machine1:
                         id: rokka-wordpress-plugin-vm.test
                         hostname: rokka-wordpress-plugin-vm.test
                         network:
                             private_network: 192.168.126.168
                             forwarded_port:
-                                vflmnfp_0n6zwli2h9b4:
+                                port1:
                                     host: '4154'
                                     guest: '22'
                         memory: '512'
@@ -38,11 +38,11 @@ vagrantfile:
                     - puphpet/puppet/manifests
                 options:
                     - '--verbose'
-                    - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
+                    - '--hiera_config /opt/puphpet/puppet/hiera.yaml'
         synced_folder:
-            vflsf_tiuynl7vlhhz:
-                owner: www-data
-                group: www-data
+            folder1:
+                owner: vagrant
+                group: vagrant
                 source: ./
                 target: /var/www
                 sync_type: nfs
@@ -87,8 +87,9 @@ vagrantfile:
 server:
     install: '1'
     packages:
-        - vim
+        - bash-completion
         - htop
+        - vim
         - subversion
 users_groups:
     install: '1'
@@ -99,9 +100,9 @@ locale:
     settings:
         default_locale: en_US.UTF-8
         locales:
+            - en_US.UTF-8
             - de_CH.UTF-8
             - de_DE.UTF-8
-            - en_US.UTF-8
         timezone: Europe/Zurich
 firewall:
     install: '1'
@@ -129,90 +130,44 @@ nginx:
         names_hash_bucket_size: 128
     upstreams: {  }
     vhosts:
-        nxv_3ymw4eanqrgj:
-            server_name: awesome.dev
+        vhost1:
+            server_name: awesome.test
             server_aliases:
-                - www.awesome.dev
+                - www.awesome.test
             www_root: /var/www/awesome
             listen_port: '80'
             client_max_body_size: 1m
             ssl: '0'
             locations:
-                nxvl_ha9wz05rwfj0:
-                    www_root: /var/www/web
+                php_html:
+                    www_root: /var/www/awesome
                     location: /
                     autoindex: 'off'
                     internal: 'false'
                     index_files:
                         - index.html
                         - index.php
-                        - app.php
                     try_files:
                         - $uri
                         - $uri/
                         - /index.php$is_args$args
-                        - /app.php$is_args$args
-                    fastcgi: ''
-                    fastcgi_index: ''
-                    fastcgi_split_path: ''
-                    proxy: ''
-                    proxy_redirect: ''
-                nxvl_9aqzb3m5ojff:
-                    www_root: /var/www/web
-                    location: '~ ^/(app_dev|config)\.php(/|$)'
+                php_php:
+                    www_root: /var/www/awesome
+                    location: '~ \.php$'
                     autoindex: 'off'
                     internal: 'false'
+                    index_files:
+                        - index.php
                     try_files:
                         - $uri
                         - $uri/
-                        - /app_dev.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: app_dev.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-                        - 'APP_ENV dev'
                     set:
                         - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-                nxvl_fcj9zs3td5z0:
-                    www_root: /var/www/awesome/web
-                    location: '~ ^/index\.php(/|$)'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /index.php$is_args$args
                     fastcgi: '127.0.0.1:9000'
                     fastcgi_index: index.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fastcgi_split_path: '^(.+?\.php)(/.*)$'
                     fast_cgi_params_extra:
                         - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
-                nxvl_fb5gkpjdub35:
-                    www_root: /var/www/awesome/web
-                    location: '~ ^/app\.php(/|$)'
-                    autoindex: 'off'
-                    internal: 'false'
-                    try_files:
-                        - $uri
-                        - $uri/
-                        - /app.php$is_args$args
-                    fastcgi: '127.0.0.1:9000'
-                    fastcgi_index: app.php
-                    fastcgi_split_path: '^(.+\.php)(/.*)$'
-                    fast_cgi_params_extra:
-                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-                        - 'APP_ENV prod'
-                    set:
-                        - '$path_info $fastcgi_path_info'
-                    proxy: ''
-                    proxy_redirect: ''
     proxies: {  }
 apache:
     install: '1'
@@ -228,57 +183,7 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_4q9j6kbc1diq:
-            servername: rokka-wordpress-plugin-vm.test
-            serveraliases:
-                - www.rokka-wordpress-plugin-vm.test
-            docroot: /var/www/web
-            port: '443'
-            setenvif:
-                - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
-            custom_fragment: ''
-            ssl: '1'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_chain: ''
-            ssl_certs_dir: ''
-            ssl_protocol: ''
-            ssl_cipher: ''
-            directories:
-                avd_74o00edz2477:
-                    path: /var/www/web
-                    directoryindex: 'index.php app.dev'
-                    options:
-                        - Indexes
-                        - FollowSymlinks
-                        - MultiViews
-                    allow_override:
-                        - All
-                    require:
-                        - 'all granted'
-                    custom_fragment: ''
-                    provider: directory
-            files_match:
-                avfm_lx21eoajbp1r:
-                    path: (app_dev|config)\.php$
-                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
-                    setenv:
-                        - 'APP_ENV dev'
-                    custom_fragment: ''
-                    provider: filesmatch
-                avfm_twg6wz3vskgh:
-                    path: app\.php$
-                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
-                    setenv:
-                        - 'APP_ENV prod'
-                    custom_fragment: ''
-                    provider: filesmatch
-                avfm_7opzq6ljvbvx:
-                    path: \.php$
-                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
-                    custom_fragment: ''
-                    provider: filesmatch
-        av_x7v0l8uy8mwt:
+        vhost1:
             servername: rokka-wordpress-plugin-vm.test
             serveraliases:
                 - www.rokka-wordpress-plugin-vm.test
@@ -288,16 +193,17 @@ apache:
                 - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
             custom_fragment: /vagrant/env_config/dev/vhost80_custom_directives
             ssl: '0'
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_chain: ''
-            ssl_certs_dir: ''
+            ssl_cert: LETSENCRYPT
+            ssl_key: LETSENCRYPT
+            ssl_chain: LETSENCRYPT
+            ssl_certs_dir: LETSENCRYPT
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_v0e69c0inmkz:
+                php_html:
+                    provider: directory
                     path: /var/www/web
-                    directoryindex: ''
+                    directoryindex: 'index.php index.html'
                     options:
                         - Indexes
                         - FollowSymlinks
@@ -306,8 +212,44 @@ apache:
                         - All
                     require:
                         - 'all granted'
-                    custom_fragment: ''
+                php_php:
+                    provider: filesmatch
+                    path: \.php$
+                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
+        vhost_i44:
+            servername: rokka-wordpress-plugin-vm.test
+            serveraliases:
+                - www.rokka-wordpress-plugin-vm.test
+            docroot: /var/www/web
+            port: '443'
+            setenvif:
+                - 'Authorization "(.*)" HTTP_AUTHORIZATION=$1'
+            ssl: '1'
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
+            ssl_protocol: ''
+            ssl_cipher: ''
+            directories:
+                wordpress_fm_HQU:
+                    provider: filesmatch
+                    path: \.php$
+                    sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                    setenv:
+                        - 'APP_ENV dev'
+                wordpress_dir_HQU:
                     provider: directory
+                    path: /var/www/web
+                    directoryindex: index.php
+                    options:
+                        - Indexes
+                        - FollowSymlinks
+                        - MultiViews
+                    allow_override:
+                        - All
+                    require:
+                        - 'all granted'
 letsencrypt:
     install: '1'
     settings:
@@ -323,13 +265,13 @@ php:
             - cli
             - intl
             - xml
-            - common
             - curl
             - gd
             - mbstring
             - mcrypt
             - mysqlnd
             - xmlrpc
+            - common
         pear: {  }
         pecl: {  }
     ini:
@@ -342,7 +284,7 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_6ujxcl4xma52:
+        pool1:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
@@ -374,25 +316,22 @@ blackfire:
             agent_timeout: '0.25'
             log_file: ''
             log_level: '1'
-xhprof:
-    install: '0'
 wpcli:
     install: '0'
-    version: v1.1.0
 drush:
     install: '0'
     version: 8.0.5
 ruby:
     install: '1'
     versions:
-        rv_tw219k4wi68c:
+        ruby1:
             default: '1'
             bundler: '1'
-            version: 2.3.1
+            version: '2.4'
             gems:
-                - deep_merge@1.0.1
-                - activesupport@4.2.6
-                - vine@0.2
+                - deep_merge@1.2.1
+                - activesupport@5.1.4
+                - vine@0.4
 python:
     install: '1'
     packages: {  }
@@ -410,15 +349,16 @@ mariadb:
         root_password: '123'
         override_options: {  }
     users:
-        mariadbnu_07vf8y1cp5ke:
+        user1:
             name: rokkavm
             password: '123'
     databases:
-        mariadbnd_s4dmn8alwifj:
+        database1:
             name: rokkavm
+            collate: utf8_general_ci
             sql: /var/www/data/sql/rokka-wordpress-plugin-vm.sql
     grants:
-        mariadbng_s513orqpbeie:
+        grant1:
             user: rokkavm
             table: '*.*'
             privileges:
@@ -430,15 +370,16 @@ mysql:
         root_password: '123'
         override_options: {  }
     users:
-        mysqlnu_wmy3egamrzah:
+        user1:
             name: dbuser
             password: '123'
     databases:
-        mysqlnd_bia1w5jskxkt:
+        database1:
             name: dbname
+            collate: utf8_general_ci
             sql: ''
     grants:
-        mysqlng_k70k4dqz01uv:
+        grant1:
             user: dbuser
             table: '*.*'
             privileges:
@@ -451,24 +392,45 @@ postgresql:
             version: '9.6'
         server:
             postgres_password: '123'
-    databases: {  }
-    users: {  }
-    grants: {  }
+    databases:
+        database1:
+            dbname: dbname
+            owner: dbuser
+    users:
+        user1:
+            username: dbuser
+            password: '123'
+            superuser: '1'
+    grants:
+        grant1:
+            role: dbuser
+            db: dbname
+            privilege:
+                - ALL
 mongodb:
     install: '0'
     settings:
         bind_ip: 127.0.0.1
         port: '27017'
     globals:
-        version: 2.6.0
-    databases: {  }
+        version: 3.6.2
+    databases:
+        database1:
+            name: dbname
+            user: dbuser
+            password: '123'
 redis:
     install: '0'
     settings:
         port: '6379'
 sqlite:
     install: '0'
-    databases: {  }
+    databases:
+        database1:
+            name: dbname
+            owner: www-data
+            group: www-data
+            sql_file: ''
 mailhog:
     install: '1'
     settings:
@@ -492,20 +454,24 @@ rabbitmq:
     install: '0'
     settings:
         port: '5672'
-    users: {  }
+    users:
+        user1:
+            admin: '1'
+            name: admin
+            password: '123'
+            tags:
+                - admin
     vhosts: {  }
     plugins: {  }
 elastic_search:
     install: '0'
     settings:
-        version: 2.3.1
+        version: 6.1.2
         java_install: true
     instances:
-        esi_h58c08fk2rvu:
+        instance1:
             name: es-01
-solr:
-    install: '0'
-    settings:
-        version: 5.5.2
-        port: '8984'
+            jvm_options:
+                - '-Xms2G'
+                - '-Xmx2G'
 
