@@ -15,8 +15,5 @@ mysql -u rokkavm -p123 -e"show databases;" | grep rokkavm && mysql -u rokkavm -p
 mysql -u rokkavm -p123 -e"CREATE DATABASE rokkavm;"
 mysql -u rokkavm -p123 rokkavm < /vagrant/data/sql/rokka-wordpress-plugin-vm.sql
 
-# Flush Redis cache
-sudo redis-cli flushall
-
 # Restart Apache
 sudo apachectl start
